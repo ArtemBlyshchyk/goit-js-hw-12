@@ -13,8 +13,8 @@ export const galleryContainer = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 export const loadMoreBtn = document.querySelector('.loadBtn');
 
-export let currentPage = 1;
-export let currentQuery = '';
+let currentPage = 1;
+let currentQuery = '';
 export const perPage = 15;
 
 const totalPages = Math.ceil(100 / perPage);
