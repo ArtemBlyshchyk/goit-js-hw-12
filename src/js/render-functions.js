@@ -3,7 +3,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { galleryContainer, loadMoreBtn } from '../main.js';
 
-// ==========================  RENDER ===========================
 export function appendImages(images) {
   const galleryItem = images
     .map(

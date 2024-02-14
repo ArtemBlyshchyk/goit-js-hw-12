@@ -2,9 +2,8 @@ import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-import { currentQuery, perPage } from '../main.js';
+import { perPage } from '../main.js';
 
-// =========   API   ===================
 export async function fetchImages(currentQuery, page) {
   axios.defaults.baseURL = `https://pixabay.com`;
   const response = await axios.get('/api/', {
