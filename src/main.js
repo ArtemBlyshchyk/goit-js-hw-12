@@ -11,6 +11,9 @@ const form = {
 
 export const galleryContainer = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const moreLoader = document.querySelector('.loader.moreLoader');
+console.log(moreLoader);
+
 export const loadMoreBtn = document.querySelector('.loadBtn');
 
 let currentPage = 1;
@@ -56,17 +59,22 @@ async function onSearchImg(event) {
 }
 
 async function onLoadMore() {
-  if (currentPage > totalPages) {
-    loadMoreBtn.style.display = 'none';
-    return iziToast.error({
-      position: 'topRight',
-      message: "We're sorry, there are no more posts to load",
-    });
-  }
+  // Показувати завантажувач
+  moreLoader.style.display = 'block';
+
   currentPage++;
   try {
     const images = await fetchImages(currentQuery, currentPage);
     appendImages(images);
+    console.log(images);
+
+    if (currentPage === totalPages) {
+      loadMoreBtn.style.display = 'none';
+      return iziToast.error({
+        position: 'topRight',
+        message: "We're sorry, there are no more posts to load",
+      });
+    }
 
     // Прокрутити сторінку на висоту однієї карточки галереї
     const itemHeight = getGalleryItemHeight();
@@ -80,6 +88,9 @@ async function onLoadMore() {
       message: 'An error occurred while fetching more images!',
       position: 'topRight',
     });
+  } finally {
+    // Приховати завантажувач
+    moreLoader.style.display = 'none';
   }
 }
 
