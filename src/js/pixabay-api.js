@@ -27,5 +27,5 @@ export async function fetchImages(currentQuery, page) {
       position: 'topRight',
     });
   }
-  return response.data.hits;
+  return response.data;
 }

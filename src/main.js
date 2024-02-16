@@ -12,15 +12,12 @@ const form = {
 export const galleryContainer = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const moreLoader = document.querySelector('.loader.moreLoader');
-console.log(moreLoader);
 
 export const loadMoreBtn = document.querySelector('.loadBtn');
 
 let currentPage = 1;
 let currentQuery = '';
-export const perPage = 15;
-
-const totalPages = Math.ceil(100 / perPage);
+export const perPage = 150;
 
 form.searchForm.addEventListener('submit', onSearchImg);
 loadMoreBtn.addEventListener('click', onLoadMore);
@@ -44,7 +41,7 @@ async function onSearchImg(event) {
   // Виклик запиту до сервера та отримання даних
   try {
     const images = await fetchImages(currentQuery, currentPage);
-    displayImages(images);
+    displayImages(images.hits);
   } catch (error) {
     iziToast.error({
       message: 'An error occurred while fetching images!',
@@ -59,21 +56,29 @@ async function onSearchImg(event) {
 }
 
 async function onLoadMore() {
+  // Приховати кнопку Load more
+  loadMoreBtn.style.display = 'none';
+
   // Показувати завантажувач
   moreLoader.style.display = 'block';
 
   currentPage++;
   try {
     const images = await fetchImages(currentQuery, currentPage);
-    appendImages(images);
-    console.log(images);
+    appendImages(images.hits);
+
+    // Динамічний підрахунок загальної кількості сторінок картинок
+    const totalPages = Math.ceil(images.totalHits / perPage);
 
     if (currentPage === totalPages) {
       loadMoreBtn.style.display = 'none';
-      return iziToast.error({
+      return iziToast.info({
         position: 'topRight',
-        message: "We're sorry, there are no more posts to load",
+        message: "We're sorry, but you've reached the end of search results.",
       });
+    } else {
+      // Показати кнопку Load more
+      loadMoreBtn.style.display = 'block';
     }
 
     // Прокрутити сторінку на висоту однієї карточки галереї
