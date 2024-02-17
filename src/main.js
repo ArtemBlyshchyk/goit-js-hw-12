@@ -17,7 +17,7 @@ export const loadMoreBtn = document.querySelector('.loadBtn');
 
 let currentPage = 1;
 let currentQuery = '';
-export const perPage = 150;
+export const perPage = 15;
 
 form.searchForm.addEventListener('submit', onSearchImg);
 loadMoreBtn.addEventListener('click', onLoadMore);
@@ -70,7 +70,7 @@ async function onLoadMore() {
     // Динамічний підрахунок загальної кількості сторінок картинок
     const totalPages = Math.ceil(images.totalHits / perPage);
 
-    if (currentPage === totalPages) {
+    if (currentPage >= totalPages) {
       loadMoreBtn.style.display = 'none';
       return iziToast.info({
         position: 'topRight',
